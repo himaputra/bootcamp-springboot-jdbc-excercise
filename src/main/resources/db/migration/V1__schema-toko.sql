@@ -4,4 +4,5 @@ create table toko(
 	alamat character varying(100)
 );
 
-insert into toko(id, nama, alamat) values ('001', 'Samsung', 'Jakarta');
+insert into toko(id, nama, alamat) values ('001', 'SAMSUNG', 'Jakarta');
+insert into toko(id, nama, alamat) values ('002', 'SONY', 'Surabaya');

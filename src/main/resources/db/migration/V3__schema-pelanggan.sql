@@ -3,3 +3,6 @@ create table pelanggan(
 	nama character varying(100) not null,
 	alamat character varying(100)
 );
+
+insert into pelanggan(id, nama, alamat) values ('001', 'Himawan Eka Putra', 'Cimahi');
+insert into pelanggan(id, nama, alamat) values ('002', 'Nanra Sukedy Hasibuan', 'Bandung');

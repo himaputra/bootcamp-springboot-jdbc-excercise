@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tabeldata.bootcamp.belajarspringboot.model.Produk;
+import com.tabeldata.bootcamp.belajarspringboot.model.Toko;
 
 @Repository
 @Transactional(readOnly = true)
@@ -22,7 +23,7 @@ public class ProdukDao {
 
 	@Transactional
 	public void save(Produk produk) {
-		String SQL = "insert into produk(id, nama, kuantitas) values (?, ?, ?)";
+		String SQL = "insert into produk(id, toko_id, nama, harga, kuantitas) values (?, ?, ?, ?, ?)";
 		this.jdbc.update(SQL, new InsertProduk(produk));
 	}
 
@@ -38,7 +39,12 @@ public class ProdukDao {
 
 	@Transactional
 	public void update(Produk produk) {
-		String SQL = "update produk set " + "nama = ?, " + "kuantitas = ? " + "where id = ?";
+		String SQL = "update produk set "
+				+ "toko_id = ?, "
+				+ "nama = ?, "
+				+ "harga = ?, "
+				+ "kuantitas = ? "
+				+ "where id = ?";
 		this.jdbc.update(SQL, new UpdateProduk(produk));
 	}
 	
@@ -60,9 +66,11 @@ public class ProdukDao {
 		@Override
 		public void setValues(PreparedStatement ps) throws SQLException {
 			// TODO Auto-generated method stub
-			ps.setString(1, produk.getNama());
-			ps.setInt(2, produk.getKuantitas());
-			ps.setString(3, produk.getId());
+			ps.setString(1, produk.getIdToko().getId());
+			ps.setString(2, produk.getNama());
+			ps.setBigDecimal(3, produk.getHarga());
+			ps.setInt(4, produk.getKuantitas());
+			ps.setString(5, produk.getId());
 		}
 
 	}
@@ -74,7 +82,11 @@ public class ProdukDao {
 			// TODO Auto-generated method stub
 			Produk aProduk = new Produk();
 			aProduk.setId(rs.getString("id"));
+			Toko toko = new Toko();
+			toko.setId(rs.getString("id"));
+			aProduk.setIdToko(toko);
 			aProduk.setNama(rs.getString("nama"));
+			aProduk.setHarga(rs.getBigDecimal("harga"));
 			aProduk.setKuantitas(rs.getInt("kuantitas"));
 			return aProduk;
 		}
@@ -93,8 +105,10 @@ public class ProdukDao {
 		public void setValues(PreparedStatement ps) throws SQLException {
 			// TODO Auto-generated method stub
 			ps.setString(1, produk.getId());
-			ps.setString(2, produk.getNama());
-			ps.setInt(3, produk.getKuantitas());
+			ps.setString(2, produk.getIdToko().getId());
+			ps.setString(3, produk.getNama());
+			ps.setBigDecimal(4, produk.getHarga());
+			ps.setInt(5, produk.getKuantitas());
 		}
 
 	}
